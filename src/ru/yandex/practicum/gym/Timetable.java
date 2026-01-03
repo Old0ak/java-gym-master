@@ -41,7 +41,7 @@ public class Timetable {
         return Objects.nonNull(timeTrainings) ? timeTrainings : Collections.emptyList();
     }
 
-    public Map<Coach, Integer> getCountByCoaches () {
+    public Map<Coach, Integer> getCountByCoaches() {
         Map<Coach, Integer> coachTrainingCount = new HashMap<>();
 
         for (TreeMap<TimeOfDay, List<TrainingSession>> dayTrainings : timetable.values()) {
