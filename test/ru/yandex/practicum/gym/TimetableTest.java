@@ -112,9 +112,9 @@ public class TimetableTest {
 
         timetable.addNewTrainingSession(thursdayAdultTrainingSession);
 
-        Map<Coach, Integer> coachCounts = timetable.getCountByCoaches();
+        List<CounterOfTrainings> coachCounts = timetable.getCountByCoaches();
 
-        Assertions.assertEquals(1, coachCounts.get(coach));
+        Assertions.assertEquals(1, coachCounts.getFirst().getCountTrainingSession());
     }
 
     @Test
@@ -146,10 +146,13 @@ public class TimetableTest {
 
         timetable.addNewTrainingSession(singleTrainingSession);
 
-        Map<Coach, Integer> coachCounts = timetable.getCountByCoaches();
+        List<CounterOfTrainings> coachCounts = timetable.getCountByCoaches();
 
-        Assertions.assertEquals(4, coachCounts.get(coach));
-        Assertions.assertEquals(1, coachCounts.get(coach2));
+        Assertions.assertEquals(4, coachCounts.getFirst().getCountTrainingSession());
+        Assertions.assertEquals(1, coachCounts.getLast().getCountTrainingSession());
+
+        Assertions.assertTrue(coachCounts.getFirst().getCountTrainingSession() >=
+                coachCounts.getLast().getCountTrainingSession());
     }
 
     @Test
@@ -193,10 +196,15 @@ public class TimetableTest {
         timetable.addNewTrainingSession(secondTrainingSession);
         timetable.addNewTrainingSession(thirdTrainingSession);
 
-        Map<Coach, Integer> coachCounts = timetable.getCountByCoaches();
+        List<CounterOfTrainings> coachCounts = timetable.getCountByCoaches();
 
-        Assertions.assertEquals(4, coachCounts.get(coach));
-        Assertions.assertEquals(3, coachCounts.get(coach3));
-        Assertions.assertEquals(1, coachCounts.get(coach2));
+        Assertions.assertEquals(4, coachCounts.getFirst().getCountTrainingSession());
+        Assertions.assertEquals(3, coachCounts.get(1).getCountTrainingSession());
+        Assertions.assertEquals(1, coachCounts.getLast().getCountTrainingSession());
+
+        Assertions.assertTrue(coachCounts.getFirst().getCountTrainingSession() >=
+                coachCounts.get(1).getCountTrainingSession());
+        Assertions.assertTrue(coachCounts.get(1).getCountTrainingSession() >=
+                coachCounts.getLast().getCountTrainingSession());
     }
 }
