@@ -41,8 +41,9 @@ public class Timetable {
         return Objects.nonNull(timeTrainings) ? timeTrainings : Collections.emptyList();
     }
 
-    public Map<Coach, Integer> getCountByCoaches() {
+    public List<CounterOfTrainings> getCountByCoaches() {
         Map<Coach, Integer> coachTrainingCount = new HashMap<>();
+        List<CounterOfTrainings> counterOfTrainings = new ArrayList<>();
 
         for (TreeMap<TimeOfDay, List<TrainingSession>> dayTrainings : timetable.values()) {
             for (List<TrainingSession> trainingSessions : dayTrainings.values()) {
@@ -54,6 +55,17 @@ public class Timetable {
             }
         }
 
-        return coachTrainingCount;
+        for (Map.Entry<Coach, Integer> entry : coachTrainingCount.entrySet()) {
+            Coach coach = entry.getKey();
+            int trainingCount = entry.getValue();
+            CounterOfTrainings counter = new CounterOfTrainings(coach);
+            counter.setCountTrainingSession(trainingCount);
+            counterOfTrainings.add(counter);
+        }
+
+        counterOfTrainings.sort((c1, c2) ->
+                Integer.compare(c2.getCountTrainingSession(), c1.getCountTrainingSession()));
+
+        return counterOfTrainings;
     }
 }
